@@ -11,14 +11,6 @@ stages:
       - evaluations/validation_report.json:
           cache: false
 
-  process:
-    cmd: python src/process_ratings.py
-    deps:
-      - data/raw/ratings.csv
-      - src/process_ratings.py
-    outs:
-      - data/processed/ratings_clean.csv
-
   features:
     cmd: python src/create_features.py
     deps:

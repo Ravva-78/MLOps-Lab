@@ -27,6 +27,9 @@ stages:
       hash: md5
       md5: 9b5df41340f7d2d5c675bfbeed1504f4
       size: 1401
+    params:
+      params.yaml:
+        train.n_estimators: 20
     outs:
     - path: models/user_similarity.pkl
       hash: md5

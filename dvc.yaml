@@ -16,3 +16,16 @@ stages:
       - train.n_estimators
     outs:
       - models/user_similarity.pkl
+
+stages:
+  load:
+    cmd: python src/ingest.py
+    deps:
+      - data/raw/ratings.csv
+      - src/ingest.py
+      - src/config.py
+    outs:
+      - data/processed/ratings_clean.csv
+    metrics:
+      - evaluations/validation_report.json:
+          cache: false      

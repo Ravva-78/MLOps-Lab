@@ -6,11 +6,13 @@ stages:
       - src/process_ratings.py
     outs:
       - data/processed/ratings_clean.csv
-  
+
   features:
     cmd: python src/create_features.py
     deps:
       - data/processed/ratings_clean.csv
       - src/create_features.py
+    params:
+      - train.n_estimators
     outs:
       - models/user_similarity.pkl

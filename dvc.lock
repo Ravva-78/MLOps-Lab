@@ -21,17 +21,38 @@ stages:
     deps:
     - path: data/processed/ratings_clean.csv
       hash: md5
-      md5: 4a3acf672c1f32bcf6a2557553f3bf39
-      size: 38699
+      md5: dbc75345453fa8d3c3012feb2c05c13f
+      size: 64276
     - path: src/create_features.py
       hash: md5
       md5: 9b5df41340f7d2d5c675bfbeed1504f4
       size: 1401
-    params:
-      params.yaml:
-        train.n_estimators: 20
     outs:
     - path: models/user_similarity.pkl
       hash: md5
-      md5: f97affced7ffd86ab91ff4ec9076e71d
-      size: 384670
+      md5: 79e64b90dab70cf40c69d85103a58c20
+      size: 350246
+  load:
+    cmd: python src/ingest.py
+    deps:
+    - path: data/raw/ratings.csv
+      hash: md5
+      md5: 31522e859f86e8d6f3ff409949f66f79
+      size: 68037
+    - path: src/config.py
+      hash: md5
+      md5: 9a70584aeb1f718644824cf842316750
+      size: 1694
+    - path: src/ingest.py
+      hash: md5
+      md5: 8cf1efff4efacc4d237866a663513904
+      size: 8616
+    outs:
+    - path: data/processed/ratings_clean.csv
+      hash: md5
+      md5: dbc75345453fa8d3c3012feb2c05c13f
+      size: 64276
+    - path: evaluations/validation_report.json
+      hash: md5
+      md5: 1a4a2b2140f45f81557a0bb417d96a25
+      size: 118

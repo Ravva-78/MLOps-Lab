@@ -207,4 +207,10 @@ marimo/_lsp/
 __marimo__/
 data/processed/
 models/
-
+mlartifacts/
+mlflow.db
+=2.0.0
+mlflow.db
+mlartifacts/
+.venv/
+__pycache__/

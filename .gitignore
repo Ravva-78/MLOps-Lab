@@ -214,3 +214,6 @@ mlflow.db
 mlartifacts/
 .venv/
 __pycache__/
+mlartifacts/
+mlflow.db
+logs/

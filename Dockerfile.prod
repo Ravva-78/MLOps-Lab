@@ -1,0 +1,47 @@
+# =========================
+# Stage 1: Builder
+# =========================
+FROM python:3.10 AS builder
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+
+# Install dependencies globally
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+# =========================
+# Stage 2: Runtime
+# =========================
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /usr/local /usr/local
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser
+
+# Copy project files
+COPY --chown=appuser:appuser src/ src/
+COPY --chown=appuser:appuser models/ models/
+COPY --chown=appuser:appuser scripts/ scripts/
+
+# Switch to non-root user
+USER appuser
+
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD python -c "import requests; r = requests.get('http://localhost:8000/health'); assert r.status_code == 200"
+
+# Run app
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
